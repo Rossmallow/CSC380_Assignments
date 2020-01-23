@@ -3,7 +3,11 @@
 # puzzle.py
 
 from node import Node
-import BFS, DFS, GBF, A1, A2
+import BFS
+import DFS
+import GBF
+import A1
+import A2
 
 goal = Node([1, 2, 3, 8, 0, 4, 7, 6, 5])
 
@@ -18,13 +22,13 @@ initialStates = [
 ]
 
 for node in initialStates:
-    print ("\n=== {0} BREADTH FIRST SEARCH ===".format(node[0]))
-    BFS.search(node[1].state, goal)
-    print ("\n=== {0} DEPTH FIRST SEARCH ===".format(node[0]))
-    DFS.search(node[1].state, goal)
-    print ("\n=== {0} GREEDY BEST-FIRST ===".format(node[0]))
-    GBF.search(node[1].state, goal)
-    print ("\n=== {0} A*1 ===".format(node[0]))
-    A1.search(node[1].state, goal)
-    print ("\n=== {0} A*2 ===".format(node[0]))
-    A2.search(node[1].state, goal)
+    print("\n=== {0} BREADTH FIRST SEARCH ===".format(node[0]))
+    BFS.search(node[1], goal)
+    print("\n=== {0} DEPTH FIRST SEARCH ===".format(node[0]))
+    DFS.search(node[1], goal)
+    print("\n=== {0} GREEDY BEST-FIRST ===".format(node[0]))
+    GBF.search(node[1], goal)
+    print("\n=== {0} A*1 ===".format(node[0]))
+    A1.search(node[1], goal)
+    print("\n=== {0} A*2 ===".format(node[0]))
+    A2.search(node[1], goal)
