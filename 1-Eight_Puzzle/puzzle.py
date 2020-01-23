@@ -2,6 +2,9 @@
 # January 26th, 2020
 # puzzle.py
 
+import sys
+import getopt
+
 from node import Node
 import BFS
 import DFS

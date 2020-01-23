@@ -27,7 +27,7 @@ def search(start, goal):
             print("{1}, cost = {2}, total cost = {3}\n{0}".format(
                 string, current.action, current.cost, current.totalCost))
         if (string == goal.toString()):
-            print("FOUND IT!!!")
+            print("Goal!")
             return
         current.findChildren()
         for child in current.children:
