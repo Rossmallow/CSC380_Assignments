@@ -12,6 +12,7 @@ visited = []
 # Performs a DFS search on the start node until it's state equals the state of
 # the end node
 def search(start, goal):
+
     # Add state to list of visited states
     visited.append(start.toString())
 
@@ -21,24 +22,17 @@ def search(start, goal):
     while (not nodes.empty()):
         current = nodes.get()
         string = current.toString()
-        if (current == start):
-            print("{0}".format(string))
-        else:
-            print("{1}, cost = {2}, total cost = {3}\n{0}".format(
-                string, current.action, current.cost, current.totalCost))
+        # if (current == start):
+        #    print("{0}".format(string))
+        # else:
+        #    print("{1}, cost = {2}, total cost = {3}\n{0}".format(
+        #        string, current.action, current.cost, current.totalCost))
         if (string == goal.toString()):
             print("Goal!")
             return
         current.findChildren()
         for child in current.children:
-            if (child != None):
-                childVisited = False
-                for state in visited:
-                    childString = child.toString()
-                    if (childString == state):
-                        childVisited = True
-                        break
-                if (childVisited == False):
-                    visited.append(childString)
-                    nodes.put(child)
+            if (child != None and child.toString() not in visited):
+                visited.append(child.toString())
+                nodes.put(child)
     return

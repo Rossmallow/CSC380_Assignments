@@ -58,7 +58,7 @@ class Node:
     # Creates and returns a node with an updated state after a move
     # If the move is impossible, return None
     def left(self, state, zeroPos):
-        if (zeroPos != 2 & zeroPos != 5 & zeroPos != 8):  # If tile can move left
+        if (zeroPos != 2 and zeroPos != 5 and zeroPos != 8):  # If tile can move left
             # print("left")
             state = self.swap(state, zeroPos, zeroPos + 1)
             cost = state[zeroPos]
@@ -70,7 +70,7 @@ class Node:
     # Creates and returns a node with an updated state after a move
     # If the move is impossible, return None
     def right(self, state, zeroPos):
-        if (zeroPos != 0 & zeroPos != 3 & zeroPos != 6):  # If tile can move right
+        if (zeroPos != 0 and zeroPos != 3 and zeroPos != 6):  # If tile can move right
             # print("right")
             state = self.swap(state, zeroPos, zeroPos - 1)
             cost = state[zeroPos]
