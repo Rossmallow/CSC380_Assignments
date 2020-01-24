@@ -4,8 +4,8 @@
 
 
 class Node:
-    def __init__(self, state, parent=None, zeroPos=-1, children=[], action="",
-                 cost=0, totalCost=0):
+    def __init__(self, state, parent=None, zeroPos=-1, children=[],
+                 action="START", cost=0, totalCost=0):
         self.state = state
         self.parent = parent
         if (zeroPos == -1):
