@@ -13,8 +13,10 @@ import GBF
 import A1
 import A2
 
+# Node initialized with the goal state
 goal = Node([1, 2, 3, 8, 0, 4, 7, 6, 5])
 
+# Arrays containing nodes initialized with the starting states
 easy = ["EASY", Node([1, 3, 4, 8, 6, 2, 7, 0, 5])]
 medium = ["MEDIUM", Node([2, 8, 1, 0, 4, 3, 7, 6, 5])]
 hard = ["HARD", Node([5, 6, 7, 4, 0, 8, 3, 2, 1])]
@@ -25,6 +27,7 @@ difficulty = [None]
 search = "None"
 
 
+# Prints a help message along with an optional message
 def printHelp(message=""):
     if (len(message) > 0):
         print(message)
@@ -34,11 +37,14 @@ def printHelp(message=""):
     os._exit(0)
 
 
+# Prints help message if the first argument is '-h' or '-help'
+# or if there are too many or too little arguments
 if (args_len < 5 or args_len > 5):
     if (args[1] == '-h' or args[1] == '-help'):
         printHelp("Help:")
     printHelp("Invalid number of arguments.")
 
+# Loops through command line arguments and sets difficulty and search variables
 i = 1
 while (i < args_len):
     if (args[i] == '-d'):
@@ -58,6 +64,8 @@ while (i < args_len):
             printHelp("Invalid argument '{0}'.".format(s))
     i += 1
 
+# Runs the appropriate program with the appropriate starting state
+# based on set variables
 if (search == "BFS"):
     print("\n=== {0} BREADTH FIRST SEARCH ===".format(difficulty[0]))
     BFS.search(difficulty[1], goal)

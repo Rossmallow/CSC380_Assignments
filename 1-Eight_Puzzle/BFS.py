@@ -37,6 +37,7 @@ def search(start, goal):
                     childString = child.toString()
                     if (childString == state):
                         childVisited = True
+                        break
                 if (childVisited == False):
                     visited.append(childString)
                     nodes.put(child)
