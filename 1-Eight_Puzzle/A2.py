@@ -14,12 +14,21 @@ def search(start, goal):
     visited = set()
     nodes = queue.PriorityQueue()
 
+    # Variables to measure metrics
+    time = 0
+    space = 1
+    maxSpace = space
+
     visited.add(start.toString())
     nodes.put(start)
 
     print("Finding the goal state...")
     while (not nodes.empty()):
+        if (space > maxSpace):
+            maxSpace = space
         current = nodes.get()
+        time += 1
+        space -= 1
         string = current.toString()
         # Uncomment below to print nodes as they are explored
         """
@@ -30,7 +39,8 @@ def search(start, goal):
                 string, current.action, current.cost, current.totalCost))
         """
         if (string == goal.toString()):
-            printPath(current, start, "Goal state found. Finding path...")
+            printPath(current, start, time, maxSpace,
+                      "Goal state found. Finding path...")
             return
         current.findChildren()
         for child in current.children:
@@ -38,4 +48,5 @@ def search(start, goal):
                 visited.add(child.toString())
                 child.setHeuristic(child.cost + manhattanDistance(child, goal))
                 nodes.put(child)
+                space += 1
     return
