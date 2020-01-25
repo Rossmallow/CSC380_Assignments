@@ -3,6 +3,10 @@
 # node.py
 
 
+# Node class contains variables for state, parent node,
+# the position of the empty tile within the state, the children nodes,
+# the action used to reach the node, the cost used to reach the node,
+# and the total cost of the current path
 class Node:
     def __init__(self, state, parent=None, zeroPos=-1, children=[],
                  action="START", cost=0, totalCost=0):
@@ -16,6 +20,16 @@ class Node:
         self.action = action
         self.cost = cost
         self.totalCost = totalCost
+
+    # The following functions say to compare nodes by their cost values
+    def __lt__(self, other):
+        return self.cost < other.cost
+
+    def __gt__(self, other):
+        return self.cost > other.cost
+
+    def __eq__(self, other):
+        return self.cost == other.cost
 
     # Find the children nodes for each action
     def findChildren(self):
@@ -34,8 +48,8 @@ class Node:
     # Creates and returns a node with an updated state after a move
     # If the move is impossible, return None
     def up(self, state, zeroPos):
-        if (zeroPos < 6):  # If tile can move up
-            # print("up")
+        # If tile can move up
+        if (zeroPos < 6):
             state = self.swap(state, zeroPos, zeroPos + 3)
             cost = state[zeroPos]
             return Node(state, self, zeroPos + 3, [], "UP", cost,
@@ -46,8 +60,8 @@ class Node:
     # Creates and returns a node with an updated state after a move
     # If the move is impossible, return None
     def down(self, state, zeroPos):
-        if (zeroPos > 2):  # If tile can move down
-            # print("down")
+        # If tile can move down
+        if (zeroPos > 2):
             state = self.swap(state, zeroPos, zeroPos - 3)
             cost = state[zeroPos]
             return Node(state, self, zeroPos - 3, [], "DOWN", cost,
@@ -58,8 +72,8 @@ class Node:
     # Creates and returns a node with an updated state after a move
     # If the move is impossible, return None
     def left(self, state, zeroPos):
-        if (zeroPos != 2 and zeroPos != 5 and zeroPos != 8):  # If tile can move left
-            # print("left")
+        # If tile can move left
+        if (zeroPos != 2 and zeroPos != 5 and zeroPos != 8):
             state = self.swap(state, zeroPos, zeroPos + 1)
             cost = state[zeroPos]
             return Node(state, self, zeroPos + 1, [], "LEFT", cost,
@@ -70,8 +84,8 @@ class Node:
     # Creates and returns a node with an updated state after a move
     # If the move is impossible, return None
     def right(self, state, zeroPos):
-        if (zeroPos != 0 and zeroPos != 3 and zeroPos != 6):  # If tile can move right
-            # print("right")
+        # If tile can move right
+        if (zeroPos != 0 and zeroPos != 3 and zeroPos != 6):
             state = self.swap(state, zeroPos, zeroPos - 1)
             cost = state[zeroPos]
             return Node(state, self, zeroPos - 1, [], "RIGHT", cost,
@@ -87,8 +101,6 @@ class Node:
 
     # Swaps the values of two positions
     def swap(self, state, pos1, pos2):
-        # print("Pos1: {0} val1: {1}, Pos2: {2} val2: {3}".format(
-        #     pos1, state[pos1], pos2, state[pos2]))
         value = state[pos1]
         state[pos1] = state[pos2]
         state[pos2] = value

@@ -6,7 +6,10 @@ from node import Node
 import sys
 
 
+# Iterates through the path and prints each node's action, cost, state,
+# and the current total cost of the solution.
 def printPath(current, start, message=""):
+    # Prints an optional message
     if (len(message) > 0):
         print(message)
     path = findPath(current, start)
@@ -17,21 +20,13 @@ def printPath(current, start, message=""):
     print("Goal!")
 
 
+# Starting with the current node, add it to a list, then add its parent,
+# and so on until the start node has been found.
 def findPath(current, start):
     path = []
     while (current.toString() != start.toString()):
         path.append(current)
         current = current.parent
     path.append(start)
+    # Return the reversed list
     return path[::-1]
-
-
-"""
-def findPath(current, start, path):
-    if (current.parent == None):
-        path.append(current)
-    else:
-        path.append(current)
-        findPath(current.parent, start, path)
-    return path[::-1]
-"""

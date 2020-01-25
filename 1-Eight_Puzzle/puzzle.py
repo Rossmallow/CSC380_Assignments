@@ -9,6 +9,7 @@ import getopt
 from node import Node
 import BFS
 import DFS
+import UCS
 import GBF
 import A1
 import A2
@@ -33,7 +34,7 @@ def printHelp(message=""):
         print(message)
     print("Please use the following format:\n" +
           "puzzle.py -d <difficulty | [e]asy | [m]edium | [h]ard> " +
-          "-s <search | bfs | dfs | gbf | a1 | a2>")
+          "-s <search | bfs | dfs | ucs | gbf | a1 | a2>")
     os._exit(0)
 
 
@@ -58,7 +59,8 @@ while (i < args_len):
             printHelp("Invalid argument '{0}'.".format(args[i + 1]))
     elif (args[i] == '-s'):
         s = args[i + 1].upper()
-        if (s == "BFS" or s == "DFS" or s == "GBF" or s == "A1" or s == "A2"):
+        if (s == "BFS" or s == "DFS" or s == "UCS" or s == "GBF"
+                or s == "A1" or s == "A2"):
             search = s
         else:
             printHelp("Invalid argument '{0}'.".format(s))
@@ -72,6 +74,9 @@ if (search == "BFS"):
 elif (search == "DFS"):
     print("\n=== {0} DEPTH FIRST SEARCH ===".format(difficulty[0]))
     DFS.search(difficulty[1], goal)
+elif (search == "UCS"):
+    print("\n=== {0} UNIFORM COST SEARCH ===".format(difficulty[0]))
+    UCS.search(difficulty[1], goal)
 elif (search == "GBF"):
     print("\n=== {0} GREEDY BEST-FIRST ===".format(difficulty[0]))
     GBF.search(difficulty[1], goal)
