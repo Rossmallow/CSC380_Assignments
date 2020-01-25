@@ -14,11 +14,11 @@ def search(start, goal):
     nodes = queue.PriorityQueue()
 
     visited.add(start.toString())
-    nodes.put((start.totalCost, start))
+    nodes.put(start)
 
     print("Finding the goal state...")
     while (not nodes.empty()):
-        current = nodes.get()[1]
+        current = nodes.get()
         string = current.toString()
         # Uncomment below to print nodes as they are explored
         """
@@ -35,5 +35,6 @@ def search(start, goal):
         for child in current.children:
             if (child is not None and child.toString() not in visited):
                 visited.add(child.toString())
-                nodes.put((child.totalCost, child))
+                child.setHeuristic(child.totalCost)
+                nodes.put(child)
     return

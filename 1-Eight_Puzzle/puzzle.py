@@ -34,7 +34,7 @@ def printHelp(message=""):
         print(message)
     print("Please use the following format:\n" +
           "puzzle.py -d <difficulty | [e]asy | [m]edium | [h]ard> " +
-          "-s <search | bfs | dfs | ucs | gbf | a1 | a2>")
+          "-s <search | bfs | dfs | ucs | gbf | a*1 | a*2>")
     os._exit(0)
 
 
@@ -59,8 +59,8 @@ while (i < args_len):
             printHelp("Invalid argument '{0}'.".format(args[i + 1]))
     elif (args[i] == '-s'):
         s = args[i + 1].upper()
-        if (s == "BFS" or s == "DFS" or s == "UCS" or s == "GBF"
-                or s == "A1" or s == "A2"):
+        if (s == "BFS" or s == "DFS" or s == "UCS" or s == "GBF" or
+                s == "A*1" or s == "A*2"):
             search = s
         else:
             printHelp("Invalid argument '{0}'.".format(s))
@@ -80,9 +80,9 @@ elif (search == "UCS"):
 elif (search == "GBF"):
     print("\n=== {0} GREEDY BEST-FIRST ===".format(difficulty[0]))
     GBF.search(difficulty[1], goal)
-elif (search == "A1"):
+elif (search == "A*1"):
     print("\n=== {0} A*1 ===".format(difficulty[0]))
     A1.search(difficulty[1], goal)
-elif (search == "A2"):
+elif (search == "A*2"):
     print("\n=== {0} A*2 ===".format(difficulty[0]))
     A2.search(difficulty[1], goal)

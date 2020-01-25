@@ -9,7 +9,7 @@
 # and the total cost of the current path
 class Node:
     def __init__(self, state, parent=None, zeroPos=-1, children=[],
-                 action="START", cost=0, totalCost=0):
+                 action="START", cost=0, totalCost=0, heuristic=0):
         self.state = state
         self.parent = parent
         if (zeroPos == -1):
@@ -20,16 +20,17 @@ class Node:
         self.action = action
         self.cost = cost
         self.totalCost = totalCost
+        self.heuristic = cost  # Equal to cost by default
 
-    # The following functions say to compare nodes by their cost values
+    # The following functions say to compare nodes by their heuristic values
     def __lt__(self, other):
-        return self.cost < other.cost
+        return self.heuristic < other.heuristic
 
     def __gt__(self, other):
-        return self.cost > other.cost
+        return self.heuristic > other.heuristic
 
     def __eq__(self, other):
-        return self.cost == other.cost
+        return self.heuristic == other.heuristic
 
     # Find the children nodes for each action
     def findChildren(self):
@@ -53,7 +54,7 @@ class Node:
             state = self.swap(state, zeroPos, zeroPos + 3)
             cost = state[zeroPos]
             return Node(state, self, zeroPos + 3, [], "UP", cost,
-                        self.totalCost + cost)
+                        self.totalCost + cost, cost)
         else:
             return None
 
@@ -65,7 +66,7 @@ class Node:
             state = self.swap(state, zeroPos, zeroPos - 3)
             cost = state[zeroPos]
             return Node(state, self, zeroPos - 3, [], "DOWN", cost,
-                        self.totalCost + cost)
+                        self.totalCost + cost, cost)
         else:
             return None
 
@@ -77,7 +78,7 @@ class Node:
             state = self.swap(state, zeroPos, zeroPos + 1)
             cost = state[zeroPos]
             return Node(state, self, zeroPos + 1, [], "LEFT", cost,
-                        self.totalCost + cost)
+                        self.totalCost + cost, cost)
         else:
             return None
 
@@ -89,7 +90,7 @@ class Node:
             state = self.swap(state, zeroPos, zeroPos - 1)
             cost = state[zeroPos]
             return Node(state, self, zeroPos - 1, [], "RIGHT", cost,
-                        self.totalCost + cost)
+                        self.totalCost + cost, cost)
         else:
             return None
 
@@ -113,3 +114,8 @@ class Node:
             string += ("{0}, ".format(val))
         string = string.strip(', ')
         return string
+
+    # Sets the node's heuristic value
+    def setHeuristic(self, heuristic):
+        self.heuristic = heuristic
+        return
