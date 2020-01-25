@@ -46,7 +46,7 @@ class Node:
         else:
             return
 
-    # Creates and returns a node with an updated state after a move
+    # Creates and returns a node with an updated state after a move.
     # If the move is impossible, return None
     def up(self, state, zeroPos):
         # If tile can move up
@@ -58,7 +58,7 @@ class Node:
         else:
             return None
 
-    # Creates and returns a node with an updated state after a move
+    # Creates and returns a node with an updated state after a move.
     # If the move is impossible, return None
     def down(self, state, zeroPos):
         # If tile can move down
@@ -70,7 +70,7 @@ class Node:
         else:
             return None
 
-    # Creates and returns a node with an updated state after a move
+    # Creates and returns a node with an updated state after a move.
     # If the move is impossible, return None
     def left(self, state, zeroPos):
         # If tile can move left
@@ -82,7 +82,7 @@ class Node:
         else:
             return None
 
-    # Creates and returns a node with an updated state after a move
+    # Creates and returns a node with an updated state after a move.
     # If the move is impossible, return None
     def right(self, state, zeroPos):
         # If tile can move right
