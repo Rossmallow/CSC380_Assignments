@@ -27,6 +27,8 @@ def search(start, goal):
         if (space > maxSpace):
             maxSpace = space
         current = nodes.get()
+        time += 1
+        space -= 1
         string = current.toString()
         # Uncomment below to print nodes as they are explored
         """
