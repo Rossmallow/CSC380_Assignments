@@ -4,10 +4,11 @@
 
 from node import Node
 from path import findPath, printPath
+from heuristics import incorrectTiles
 import queue
 
 
-# Performs a BFS search on the start node until it's state equals the state of
+# Performs an A* search on the start node until it's state equals the state of
 # the end node
 def search(start, goal):
     visited = set()
@@ -35,20 +36,6 @@ def search(start, goal):
         for child in current.children:
             if (child is not None and child.toString() not in visited):
                 visited.add(child.toString())
-                child.setHeuristic(
-                    child.cost + heuristicValue(child.state, goal.state))
+                child.setHeuristic(child.cost + incorrectTiles(child, goal))
                 nodes.put(child)
     return
-
-
-# Finds a heuristic value equal to the number of
-# misplaced tiles compared to goal
-def heuristicValue(state, goal):
-    heuristic = 0
-
-    i = 0
-    while (i < len(state)):
-        if (state[i] != goal[i]):
-            heuristic += 1
-        i += 1
-    return heuristic

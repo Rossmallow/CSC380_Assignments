@@ -4,6 +4,7 @@
 
 from node import Node
 from path import findPath, printPath
+from heuristics import incorrectTiles
 import queue
 
 
@@ -35,5 +36,6 @@ def search(start, goal):
         for child in current.children:
             if (child is not None and child.toString() not in visited):
                 visited.add(child.toString())
+                child.setHeuristic(child.cost + incorrectTiles(child, goal))
                 nodes.put(child)
     return
