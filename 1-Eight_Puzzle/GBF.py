@@ -46,7 +46,7 @@ def search(start, goal):
         for child in current.children:
             if (child is not None and child.toString() not in visited):
                 visited.add(child.toString())
-                child.setHeuristic(child.cost + incorrectTiles(child, goal))
+                child.setHeuristic(incorrectTiles(child, goal))
                 nodes.put(child)
                 space += 1
     return
