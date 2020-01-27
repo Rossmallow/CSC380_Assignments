@@ -41,8 +41,6 @@ def printHelp(message=""):
 # Prints help message if the first argument is '-h' or '-help'
 # or if there are too many or too little arguments
 if (args_len < 5 or args_len > 5):
-    if (args[1] == '-h' or args[1] == '-help'):
-        printHelp("Help:")
     printHelp("Invalid number of arguments.")
 
 # Loops through command line arguments and sets difficulty and search variables
