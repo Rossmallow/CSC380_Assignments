@@ -3,7 +3,7 @@
 # GBF.py
 
 from node import Node
-from path import findPath, printPath
+from path import printPath
 from heuristics import incorrectTiles
 import queue
 

@@ -3,7 +3,7 @@
 # UCS.py
 
 from node import Node
-from path import findPath, printPath
+from path import printPath
 import queue
 
 
