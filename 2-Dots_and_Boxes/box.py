@@ -2,7 +2,7 @@
 # February 9th, 2020
 # box.py
 
-import randrange from random
+from random import randrange
 
 
 # Box class contains variables for value, owner, 
@@ -43,7 +43,7 @@ class Box:
         if (top and bottom and left and right):
             self.owner = owner
             return value
-        else
+        else:
             return 0
 
     # Sets the box's owner
