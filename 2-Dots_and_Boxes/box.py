@@ -5,16 +5,20 @@
 from random import randrange
 
 
-# Box class contains variables for value, owner, 
+# Box class contains variables for value, owner,
 # and booleans for each side of the box
 class Box:
-    def __init__(self, value=0, owner="R", top=False, bottom=False, left=False, 
+    def __init__(self, value=0, owner="", pos=[-1, -1], top=False, bottom=False, left=False,
                  right=False):
         if (value == 0):
-            self.value = randrange(1, 6) # Sets a random value [1, 2, 3, 4, 5]
+            self.value = randrange(1, 6)  # Sets a random value [1, 2, 3, 4, 5]
         else:
             self.value = value
-        self.owner = owner
+        if (owner == ""):
+            self.setOwner(str(self.value))
+        else:
+            self.owner = owner
+        self.pos = pos
         self.top = top
         self.bottom = bottom
         self.left = left
@@ -31,7 +35,7 @@ class Box:
     # Sets the value of bottom to be the inverse of the current value
     def toggleBottom(self):
         self.bottom = not self.bottom
-    
+
     # Sets the value of left to be the inverse of the current value
     def toggleLeft(self):
         self.left = not self.left
@@ -44,15 +48,19 @@ class Box:
     # owner to the passed value, and return the value of the box.
     # Otherwise, return 0.
     def checkComplete(self, owner):
-        if (top and bottom and left and right):
+        if (self.top and self.bottom and self.left and self.right):
             self.owner = owner
-            return value
+            return self.value
         else:
             return 0
 
     # Sets the box's owner
     def setOwner(self, owner):
         self.owner = owner
+
+    # Sets the box's position
+    def setPos(self, pos):
+        self.pos = pos
 
     # Returns a string representation of a box
     def toString(self):
