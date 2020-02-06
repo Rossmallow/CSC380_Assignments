@@ -45,7 +45,7 @@ def checkArgs(size=[None, None]):
 # Loops until user is satisfied with their inputted name
 def setName():
     loop = True
-    print("Hi, I'm Al G. Rhythm!")
+    print("Hi, I'm Algernon Rhythm, but you can call me Algie!")
     while(loop):
         user_input = input("What's your name?\n" +
                            "(Enter your name): ")

@@ -8,7 +8,7 @@ from random import randrange
 # Box class contains variables for value, owner, 
 # and booleans for each side of the box
 class Box:
-    def __init__(self, value=0, owner="", top=False, bottom=False, left=False, 
+    def __init__(self, value=0, owner="R", top=False, bottom=False, left=False, 
                  right=False):
         if (value == 0):
             self.value = randrange(1, 6) # Sets a random value [1, 2, 3, 4, 5]
@@ -19,7 +19,11 @@ class Box:
         self.bottom = bottom
         self.left = left
         self.right = right
-    
+
+    # Defines how to represent a box
+    def __repr__(self):
+        return self.toString()
+
     # Sets the value of top to be the inverse of the current value
     def toggleTop(self):
         self.top = not self.top
@@ -49,3 +53,8 @@ class Box:
     # Sets the box's owner
     def setOwner(self, owner):
         self.owner = owner
+
+    # Returns a string representation of a box
+    def toString(self):
+        string = "{0}".format(self.owner)
+        return string
