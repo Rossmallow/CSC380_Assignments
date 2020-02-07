@@ -4,16 +4,14 @@
 
 import sys
 import os
-import getopt
 
 from game import play
 
 args = sys.argv
 args_len = len(sys.argv)
 
+
 # Prints a help message along with an optional message
-
-
 def printHelp(message=""):
     if (len(message) > 0):
         print(message)
@@ -44,9 +42,8 @@ def checkArgs(size=[None, None]):
     print("Board size is {0} by {1}.".format(size[0], size[1]))
     return size
 
+
 # Loops until user is satisfied with their inputted name
-
-
 def setName():
     loop = True
     print("Hi, I'm Algernon Rhythm, but you can call me Algie!")
@@ -68,9 +65,8 @@ def setName():
           "Let's play Dots and Boxes!")
     return player
 
+
 # Loops until the player doesn't want to play anymore
-
-
 def playGame(player, size):
     loop = True
     while(loop):
