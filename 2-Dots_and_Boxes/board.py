@@ -6,9 +6,11 @@ from random import randrange
 
 
 # Board class contains variables for height and length of the number of boxes,
-# and height and length of the board the boxes are in.
+# the user's name, the users's score, Algie's score, the height and length of 
+# the board the boxes are in, and the starting grid.
 class Board:
-    def __init__(self, length, height, user= "Player", bLength=0, bHeight=0, grid=[[]]):
+    def __init__(self, length, height, user="Player", uScore=0, aScore=0, 
+                 bLength=0, bHeight=0, grid=[[]]):
         self.length = length
         self.height = height
         self.bLength = (self.length * 2) + 1
@@ -63,9 +65,10 @@ class Board:
                 self.grid[y][x] = '___'
             else:
                 return "printHelp"
-        return self.checkBoxes()
+        return self.checkBoxes(x, y, direction)
 
-    def checkBoxes(self):
+    def checkBoxes(self, x, y, direction):
+        
         return False
 
 
