@@ -16,7 +16,7 @@ def play(username, x, y):
     global user
     global board
     user = username
-    board = Board(x, y)
+    board = Board(x, y, user)
 
     printHelp('', False)
     userWon = False
@@ -55,8 +55,7 @@ def userTurn():
         elif (move[1] < 0 or move[1] > board.height - 1):
             printHelp("y position, '{0}' is out of range.".format(move[1]))
         else:
-            update = board.updateBoard(move[0], move[1], move[2],
-                                       user[:1].upper())
+            update = board.updateBoard(move[0], move[1], move[2])
             if (update == "printHelp"):
                 return printHelp("That line has already been drawn.\n" +
                                  "Choose another spot, {0}".format(user))

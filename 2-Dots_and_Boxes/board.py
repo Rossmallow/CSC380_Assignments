@@ -8,7 +8,7 @@ from random import randrange
 # Board class contains variables for height and length of the number of boxes,
 # and height and length of the board the boxes are in.
 class Board:
-    def __init__(self, length, height, bLength=0, bHeight=0, grid=[[]]):
+    def __init__(self, length, height, user= "Player", bLength=0, bHeight=0, grid=[[]]):
         self.length = length
         self.height = height
         self.bLength = (self.length * 2) + 1
@@ -36,11 +36,10 @@ class Board:
         return grid
 
 
-# Takes (x, y) coordinates of box to update, direction to draw line,
-# and player's initial.
+# Takes (x, y) coordinates of box to update, and direction to draw line.
 # The first two lines Convert values from grid of lenght*height
 # to grid of bLenght*bHeight
-    def updateBoard(self, x, y, direction, initial):
+    def updateBoard(self, x, y, direction):
         x = (x * 2) + 1
         y = (y * 2) + 1
         print("x: {0}, y: {1}".format(x, y))
@@ -64,6 +63,9 @@ class Board:
                 self.grid[y][x] = '___'
             else:
                 return "printHelp"
+        return self.checkBoxes()
+
+    def checkBoxes(self):
         return False
 
 
