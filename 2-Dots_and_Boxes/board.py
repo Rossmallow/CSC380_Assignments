@@ -11,8 +11,8 @@ class Board:
     def __init__(self, length, height, bLength=0, bHeight=0, grid=[[]]):
         self.length = length
         self.height = height
-        self.bLength = (self.length ** 2) + 1
-        self.bHeight = (self.height ** 2) + 1
+        self.bLength = (self.length * 2) + 1
+        self.bHeight = (self.height * 2) + 1
         if (grid == [[]]):
             self.grid = self.createBoard()
         else:
@@ -34,6 +34,38 @@ class Board:
                     row.append(' ')
             grid.append(row)
         return grid
+
+
+# Takes (x, y) coordinates of box to update, direction to draw line,
+# and player's initial.
+# The first two lines Convert values from grid of lenght*height
+# to grid of bLenght*bHeight
+    def updateBoard(self, x, y, direction, initial):
+        x = (x * 2) + 1
+        y = (y * 2) + 1
+        print("x: {0}, y: {1}".format(x, y))
+        if (direction == "T"):
+            y -= 1
+        elif (direction == "B"):
+            y += 1
+        elif (direction == "L"):
+            x -= 1
+        elif (direction == "R"):
+            x += 1
+
+        print("x: {0}, y: {1}".format(x, y))
+        if (x % 2 == 0 and y % 2 == 1):
+            if (self.grid[y][x] == ' '):
+                self.grid[y][x] = '|'
+            else:
+                return "printHelp"
+        elif (x % 2 == 1 and y % 2 == 0):
+            if (self.grid[y][x] == '   '):
+                self.grid[y][x] = '___'
+            else:
+                return "printHelp"
+        return False
+
 
 # Prints the board to the command line
     def prettyPrint(self):

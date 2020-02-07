@@ -61,8 +61,8 @@ def setName():
         else:
             print("I'm sorry, I don't understand '{0}'.".format(user_input))
 
-    print("It's nice to meet you, {0}! ".format(player) +
-          "Let's play Dots and Boxes!")
+    print("\nIt's nice to meet you, {0}! ".format(player) +
+          "Let's play Dots and Boxes!\n")
     return player
 
 
