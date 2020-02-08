@@ -101,7 +101,7 @@ class Board:
             return
         else:
             score = int(self.grid[y][x])
-            self.grid[y][x] = " {0} ".format(player[:1])
+            self.grid[y][x] = " {0} ".format(player[:1].upper())
             self.ownedBoxes += 1
             if (player == self.user):
                 self.uScore += score
@@ -117,8 +117,7 @@ class Board:
             for j in range(self.bLength):
                 if (self.grid[i][j].strip() == ''):
                     return False
-                else:
-                    return True
+        return True
 
 # Prints the board to the command line
     def prettyPrint(self):

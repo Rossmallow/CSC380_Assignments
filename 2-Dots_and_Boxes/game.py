@@ -29,6 +29,7 @@ def play(username, x, y):
             board.prettyPrint()
             if (algTurn() == True):
                 algWon = True
+    board.prettyPrint()
     if (userWon):
         print("Game Over, you win with a score of " +
               "{0}:{1} to A:{2}!".format(user[:1], board.uScore, board.aScore))
