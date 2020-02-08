@@ -30,9 +30,12 @@ def play(username, x, y):
             if (algTurn() == True):
                 algWon = True
     if (userWon):
-        print("Game Over, you win, {0}!".format(user))
+        print("Game Over, you win with a score of " +
+              "{0}:{1} to A:{2}!".format(user[:1], board.uScore, board.aScore))
     else:
-        print("Game Over, {0}. Good game!".format(user))
+        print("Game Over. The final score was, " +
+              "{0}:{1} to A:{1}. Good game!".format(user[:1], board.uScore, 
+                                                    board.aScore))
     return
 
 
@@ -50,12 +53,13 @@ def userTurn():
         move = user_input.upper().split(",")
         move[0] = int(move[0])
         move[1] = int(move[1])
+        move[2] = move[2].strip()
         if (move[0] < 0 or move[0] > board.length - 1):
             printHelp("x position, '{0}' is out of range.".format(move[0]))
         elif (move[1] < 0 or move[1] > board.height - 1):
             printHelp("y position, '{0}' is out of range.".format(move[1]))
         else:
-            update = board.updateBoard(move[0], move[1], move[2])
+            update = board.updateBoard(move[0], move[1], move[2], user)
             if (update == "printHelp"):
                 return printHelp("That line has already been drawn.\n" +
                                  "Choose another spot, {0}".format(user))
