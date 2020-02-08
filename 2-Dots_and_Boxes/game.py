@@ -6,13 +6,14 @@ import os
 import re
 
 from board import Board
+from algorithm import minimax
 
 user = ''
 board = None
 
 
 # Main loop which controls the game and returns when there has been a winner
-def play(username, x, y):
+def play(username, x, y, depth):
     global user
     global board
     user = username
@@ -25,17 +26,17 @@ def play(username, x, y):
         board.prettyPrint()
         if (userTurn() == True):
             userWon = True
-        else:
+        else: # User didn't win
             board.prettyPrint()
-            if (algTurn() == True):
+            if (algTurn(depth) == True):
                 algWon = True
     board.prettyPrint()
     if (userWon):
         print("Game Over, you win with a score of " +
               "{0}:{1} to A:{2}!".format(user[:1], board.uScore, board.aScore))
-    else:
+    else: # AI won
         print("Game Over. The final score was, " +
-              "{0}:{1} to A:{1}. Good game!".format(user[:1], board.uScore, 
+              "{0}:{1} to A:{2}. Good game!".format(user[:1], board.uScore, 
                                                     board.aScore))
     return
 
@@ -59,21 +60,24 @@ def userTurn():
             printHelp("x position, '{0}' is out of range.".format(move[0]))
         elif (move[1] < 0 or move[1] > board.height - 1):
             printHelp("y position, '{0}' is out of range.".format(move[1]))
-        else:
+        else: # Move is in range
             update = board.updateBoard(move[0], move[1], move[2], user)
             if (update == "printHelp"):
                 return printHelp("That line has already been drawn.\n" +
                                  "Choose another spot, {0}".format(user))
-            else:
+            else: # Update is True or False
                 return update
-    else:
+    else: # user_input isn't 'h', 'help', 'q', 'quit'
+          # or matches the regular expression
         printHelp("I'm sorry, I don't understand '{0}'.".format(user_input))
     return False
 
 
-def algTurn():
+def algTurn(depth):
     print("I'll think I'll move here.")
-    return False
+    move = minimax(board, depth)
+    return
+    return board.updateBoard(move[0], move[1], move[2], "Algie")
 
 
 # Prints a help message and an optional message.
