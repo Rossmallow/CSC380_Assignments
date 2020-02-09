@@ -10,7 +10,7 @@ from random import randrange
 # that are owned.
 class Board:
     def __init__(self, length, height, user="Player", uScore=0, aScore=0,
-                 ownedBoxes=0):
+                 state=None, ownedBoxes=0):
         self.length = length
         self.height = height
         self.user = user
@@ -18,12 +18,15 @@ class Board:
         self.aScore = aScore
         self.bLength = (self.length * 2) + 1
         self.bHeight = (self.height * 2) + 1
-        self.grid = self.createBoard()
+        if (state is None):
+            self.state = self.createBoard()
+        else: # state is not None
+            self.state = state
         self.ownedBoxes = ownedBoxes
 
 # Creates the initial board and populates boxes with random numbers.
     def createBoard(self):
-        grid = []
+        state = []
         for i in range(self.bHeight):
             row = []
             for j in range(self.bLength):
@@ -35,13 +38,13 @@ class Board:
                     row.append('   ')
                 elif (i % 2 == 1 and j % 2 == 0):
                     row.append(' ')
-            grid.append(row)
-        return grid
+            state.append(row)
+        return state
 
 
 # Takes (x, y) coordinates of box to update, and direction to draw line.
-# The first two lines Convert values from grid of lenght*height
-# to grid of bLenght*bHeight
+# The first two lines Convert values from state of lenght*height
+# to state of bLenght*bHeight
     def updateBoard(self, x, y, direction, player):
         x = (x * 2) + 1
         y = (y * 2) + 1
@@ -57,13 +60,13 @@ class Board:
         #print("x: {0}, y: {1} d: {2}".format(x, y, direction))
 
         if (x % 2 == 0 and y % 2 == 1):
-            if (self.grid[y][x] == ' '):
-                self.grid[y][x] = '|'
+            if (self.state[y][x] == ' '):
+                self.state[y][x] = '|'
             else:
                 return "printHelp"
         elif (x % 2 == 1 and y % 2 == 0):
-            if (self.grid[y][x] == '   '):
-                self.grid[y][x] = '___'
+            if (self.state[y][x] == '   '):
+                self.state[y][x] = '___'
             else:
                 return "printHelp"
         return self.checkBoxes(x, y, direction, player)
@@ -93,36 +96,42 @@ class Board:
 # Checks the top, bottom, left, and right sides of the box. If any are empty,
 # return. Else, enter the player's initial and add to their score.
     def checkBox(self, x, y, player):
-        if (self.grid[y - 1][x] == '   ' or self.grid[y + 1][x] == '   '):
+        if (self.state[y - 1][x] == '   ' or self.state[y + 1][x] == '   '):
             #print('Nope ___')
             return
-        elif (self.grid[y][x - 1] == ' ' or self.grid[y][x + 1] == ' '):
+        elif (self.state[y][x - 1] == ' ' or self.state[y][x + 1] == ' '):
             #print('Nope |')
             return
         else:
-            score = int(self.grid[y][x])
-            self.grid[y][x] = " {0} ".format(player[:1].upper())
+            score = int(self.state[y][x])
+            self.state[y][x] = " {0} ".format(player[:1].upper())
             self.ownedBoxes += 1
             if (player == self.user):
                 self.uScore += score
             else:
                 self.aScore += score
-            return self.checkWin()
+            movesLeft = self.getAvailableMoves()
+            if (len(movesLeft) == 0):
+                return True
+            else: # No moves left
+                return False
 
 
-# Checks if there is any empty spot in the grid. If there is, return False, 
-# as there are more moves, else return True, as there are no more moves
-    def checkWin(self):
+# Loops through the state and returns a list
+# with the locations of all available moves
+    def getAvailableMoves(self):
+        moves = []
         for i in range(self.bHeight):
             for j in range(self.bLength):
-                if (self.grid[i][j].strip() == ''):
-                    return False
-        return True
+                if (self.state[i][j].strip() == ''):
+                    moves.append((i, j))
+        return moves
+
 
 # Prints the board to the command line
     def prettyPrint(self):
         print('\n'.join([''.join([str(cell) for cell in row])
-                         for row in self.grid]))
+                         for row in self.state]))
         print("{0}: {1}\n".format(self.user, self.uScore) +
               "Algie: {0}".format(self.aScore))
         return
