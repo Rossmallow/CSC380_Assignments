@@ -48,7 +48,6 @@ class Board:
     def updateBoard(self, x, y, direction, player):
         x = (x * 2) + 1
         y = (y * 2) + 1
-        #print("x: {0}, y: {1} d: {2}".format(x, y, direction))
         if (direction == "T"):
             y = y - 1
         elif (direction == "B"):
@@ -57,7 +56,6 @@ class Board:
             x = x - 1
         elif (direction == "R"):
             x = x + 1
-        #print("x: {0}, y: {1} d: {2}".format(x, y, direction))
 
         if (x % 2 == 0 and y % 2 == 1):
             if (self.state[y][x] == ' '):
@@ -79,17 +77,13 @@ class Board:
         if (direction == "T" or direction == "B" and not winState):
             if (y + 1 < self.bHeight and not winState):
                 winState = self.checkBox(x, y + 1, player)
-                #print("CHECK y + 1")
             if (y - 1 >= 0 and not winState):
                 winState = self.checkBox(x, y - 1, player)
-                #print("CHECK y - 1")
         elif (direction == "L" or direction == "R" and not winState):
             if (x + 1 < self.bLength and not winState):
                 winState = self.checkBox(x + 1, y, player)
-                #print("CHECK x + 1")
             if (x - 1 >= 0 and not winState):
                 winState = self.checkBox(x - 1, y, player)
-                #print("CHECK x - 1")
         return winState
 
 
@@ -97,10 +91,8 @@ class Board:
 # return. Else, enter the player's initial and add to their score.
     def checkBox(self, x, y, player):
         if (self.state[y - 1][x] == '   ' or self.state[y + 1][x] == '   '):
-            #print('Nope ___')
             return
         elif (self.state[y][x - 1] == ' ' or self.state[y][x + 1] == ' '):
-            #print('Nope |')
             return
         else:
             score = int(self.state[y][x])
@@ -108,7 +100,7 @@ class Board:
             self.ownedBoxes += 1
             if (player == self.user):
                 self.uScore += score
-            else:
+            else: # player == "Algie"
                 self.aScore += score
             movesLeft = self.getAvailableMoves()
             if (len(movesLeft) == 0):
@@ -117,14 +109,32 @@ class Board:
                 return False
 
 
-# Loops through the state and returns a list
-# with the locations of all available moves
+# Loops through the state and returns a list with all available moves
     def getAvailableMoves(self):
-        moves = []
+        moves = set()
         for i in range(self.bHeight):
             for j in range(self.bLength):
                 if (self.state[i][j].strip() == ''):
-                    moves.append((i, j))
+                    x = j
+                    y = i
+                    if (x % 2 == 0 and y % 2 == 1):
+                        if (x - 1 in range(self.bLength)):
+                            x = int((x - 2) / 2)
+                            y = int((y - 1) / 2)
+                            moves.add((x, y, "R"))
+                        else: # x + 1 is in range
+                            x = int(x / 2)
+                            y = int((y - 1) / 2)
+                            moves.add((x, y, "L"))
+                    if (x % 2 == 1 and y % 2 == 0):
+                        if (y - 1 in range(self.bHeight)):
+                            x = int((x - 1) / 2)
+                            y = int((y - 2) / 2)
+                            moves.add((x, y, "B"))
+                        else: # y + 1 is in range
+                            x = int((x - 1) / 2)
+                            y = int(y / 2)
+                            moves.add((x, y, "T"))
         return moves
 
 
@@ -135,3 +145,27 @@ class Board:
         print("{0}: {1}\n".format(self.user, self.uScore) +
               "Algie: {0}".format(self.aScore))
         return
+
+# Returns a tuple with the board's length, height, user, uScore, aScore, state,
+# and ownedBoxes
+    def getInfo(self):
+        length = self.length
+        height = self.height
+        user = self.user
+        uScore = self.uScore
+        aScore = self.aScore
+        state = self.getState()
+        ownedBoxes = self.ownedBoxes
+        return (length, height, user, uScore, aScore, state, ownedBoxes)
+
+# Makes and returns a copy of the board's state
+    def getState(self):
+        state = []
+        for i in range(self.bHeight):
+            row = []
+            for j in range(self.bLength):
+                row.append(self.state[j][i])
+            state.append(row)
+        return state
+
+

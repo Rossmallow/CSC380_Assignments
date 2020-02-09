@@ -6,13 +6,14 @@ import os
 import re
 
 from board import Board
+from algorithm import minimax
 
 user = ''
 board = None
 
 
 # Main loop which controls the game and returns when there has been a winner
-def play(username, x, y):
+def play(username, x, y, depth):
     global user
     global board
     user = username
@@ -27,7 +28,7 @@ def play(username, x, y):
             userWon = True
         else:
             board.prettyPrint()
-            if (algTurn() == True):
+            if (algTurn(depth) == True):
                 algWon = True
     board.prettyPrint()
     if (userWon):
@@ -35,7 +36,7 @@ def play(username, x, y):
               "{0}:{1} to A:{2}!".format(user[:1], board.uScore, board.aScore))
     else:
         print("Game Over. The final score was, " +
-              "{0}:{1} to A:{1}. Good game!".format(user[:1], board.uScore, 
+              "{0}:{1} to A:{2}. Good game!".format(user[:1], board.uScore, 
                                                     board.aScore))
     return
 
@@ -71,9 +72,17 @@ def userTurn():
     return False
 
 
-def algTurn():
+
+def algTurn(depth):
     print("I'll think I'll move here.")
-    return False
+    newBoardInfo = board.getInfo()
+    newBoard = Board(newBoardInfo[0], newBoardInfo[1],newBoardInfo[2],
+                     newBoardInfo[3], newBoardInfo[4], newBoardInfo[5],
+                     newBoardInfo[6])
+    move = minimax(newBoard, depth)[1]
+    print("move: {0}".format(move))
+    update = board.updateBoard(move[0], move[1], move[2], "Algie")
+    return update
 
 
 # Prints a help message and an optional message.
