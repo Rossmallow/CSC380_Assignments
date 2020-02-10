@@ -9,10 +9,11 @@ from board import Board
 def minimax(board, depth, alpha=(-math.inf, None), beta=(math.inf, None),
             maximizingPlayer=True):
     moves = board.getAvailableMoves()
-    print(moves)
+    print("MOVES: {0}".format(moves))
     movesLeft = len(moves)
-    if (depth == 0 and movesLeft >= 1):
+    if (depth == 0 or movesLeft >= 1):
         move = moves.pop()
+        print("MOVE: {0}".format(move))
         return getHeuristic(board, move), move
     elif (maximizingPlayer):
         value = (-math.inf, None)
