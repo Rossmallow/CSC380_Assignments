@@ -33,10 +33,11 @@ def play(username, x, y, depth):
     board.prettyPrint()
     if (userWon):
         print("Game Over, you win with a score of " +
-              "{0}:{1} to A:{2}!".format(user[:1], board.uScore, board.aScore))
+              "{0}: {1} to A: {2}!".format(user[:1], board.uScore, 
+                                           board.aScore))
     else:
         print("Game Over. The final score was, " +
-              "{0}:{1} to A:{2}. Good game!".format(user[:1], board.uScore, 
+              "{0}: {1} to A: {2}. Good game!".format(user[:1], board.uScore, 
                                                     board.aScore))
     return
 
@@ -72,15 +73,16 @@ def userTurn():
     return False
 
 
-
+# Uses minimax algorithm to determine best move
 def algTurn(depth):
     print("I'll think I'll move here.")
     newBoardInfo = board.getInfo()
     newBoard = Board(newBoardInfo[0], newBoardInfo[1],newBoardInfo[2],
                      newBoardInfo[3], newBoardInfo[4], newBoardInfo[5],
                      newBoardInfo[6])
-    move = minimax(newBoard, depth)[1]
-    print("move: {0}".format(move))
+    value = minimax(newBoard, depth)
+    move = value[1]
+    print("move: {0}, heuristic: {1}".format(value[1], value[0]))
     update = board.updateBoard(move[0], move[1], move[2], "Algie")
     return update
 

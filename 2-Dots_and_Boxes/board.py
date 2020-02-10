@@ -164,7 +164,7 @@ class Board:
         for i in range(self.bHeight):
             row = []
             for j in range(self.bLength):
-                row.append(self.state[j][i])
+                row.append(self.state[i][j])
             state.append(row)
         return state
 
