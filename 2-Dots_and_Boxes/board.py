@@ -167,5 +167,3 @@ class Board:
                 row.append(self.state[i][j])
             state.append(row)
         return state
-
-
