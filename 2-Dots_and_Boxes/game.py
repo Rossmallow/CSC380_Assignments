@@ -26,17 +26,18 @@ def play(username, x, y, depth):
         board.prettyPrint()
         if (userTurn() == True):
             userWon = True
-        else: # User didn't win
+        else:
             board.prettyPrint()
             if (algTurn(depth) == True):
                 algWon = True
     board.prettyPrint()
     if (userWon):
         print("Game Over, you win with a score of " +
-              "{0}:{1} to A:{2}!".format(user[:1], board.uScore, board.aScore))
-    else: # AI won
+              "{0}: {1} to A: {2}!".format(user[:1], board.uScore, 
+                                           board.aScore))
+    else:
         print("Game Over. The final score was, " +
-              "{0}:{1} to A:{2}. Good game!".format(user[:1], board.uScore, 
+              "{0}: {1} to A: {2}. Good game!".format(user[:1], board.uScore, 
                                                     board.aScore))
     return
 
@@ -60,24 +61,30 @@ def userTurn():
             printHelp("x position, '{0}' is out of range.".format(move[0]))
         elif (move[1] < 0 or move[1] > board.height - 1):
             printHelp("y position, '{0}' is out of range.".format(move[1]))
-        else: # Move is in range
+        else:
             update = board.updateBoard(move[0], move[1], move[2], user)
             if (update == "printHelp"):
                 return printHelp("That line has already been drawn.\n" +
                                  "Choose another spot, {0}".format(user))
-            else: # Update is True or False
+            else:
                 return update
-    else: # user_input isn't 'h', 'help', 'q', 'quit'
-          # or matches the regular expression
+    else:
         printHelp("I'm sorry, I don't understand '{0}'.".format(user_input))
     return False
 
 
+# Uses minimax algorithm to determine best move
 def algTurn(depth):
     print("I'll think I'll move here.")
-    move = minimax(board, depth)
-    return
-    return board.updateBoard(move[0], move[1], move[2], "Algie")
+    newBoardInfo = board.getInfo()
+    newBoard = Board(newBoardInfo[0], newBoardInfo[1],newBoardInfo[2],
+                     newBoardInfo[3], newBoardInfo[4], newBoardInfo[5],
+                     newBoardInfo[6])
+    value = minimax(newBoard, depth)
+    move = value[1]
+    print("move: {0}, heuristic: {1}".format(value[1], value[0]))
+    update = board.updateBoard(move[0], move[1], move[2], "Algie")
+    return update
 
 
 # Prints a help message and an optional message.

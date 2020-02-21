@@ -7,71 +7,56 @@ import math
 from board import Board
 
 
-
-def minimax (board, depth, alpha=None, beta=None, maximizingPlayer=True):
+# Minimax algorithm that alternates between trying to find the best move for 
+# the AI, and the best move for the user.
+def minimax(board, depth, alpha=(-math.inf, None), beta=(math.inf, None),
+            maximizingPlayer=True, move=None):
     moves = board.getAvailableMoves()
-    if (depth == 0 or len(moves) == 0):
-        return heuristic(board.state)
-    if (maximizingPlayer):
-        value = -math.inf
-        for move in moves:
-            x, y, direction = interpretDirection(move, board.bLength, 
-                                                   board.bHeight)
-            state = board.getUpdatedBoard(x, y, direction)
-            child = Board(board.length, board.height, board.user, board.uScore, 
-                          board.aScore, state, board.ownedBoxes)
-            value = max(value, minimax(child, depth - 1, alpha, beta, False))
+    movesLeft = len(moves)
 
-            if (alpha is not None):
-                alpha = max(alpha, value)
-            else: # alpha is None
+    # If no more moves or depth is reached, return a heuristic 
+    # and the move to achieve it.
+    if (movesLeft == 0 or depth == 0):
+        return (board.aScore - board.uScore, move)
+
+    if (maximizingPlayer):
+        value = (-math.inf, None)
+        for m in moves:
+            board = copyBoard(board)
+            board.updateBoard(m[0], m[1], m[2], "Algie")
+            if (move is None):
+                minimaxValue = minimax(board, depth - 1, alpha, beta, False, m)
+            else:
+                minimaxValue = minimax(board, depth - 1, alpha, beta, False, move)
+            if (value[0] < minimaxValue[0]):
+                value = minimaxValue
+            if (alpha[0] < value[0]):
                 alpha = value
-            if (alpha >= beta):
-                break # Prune
+            if (alpha[0] >= beta[0]):
+               break # Prune
         return value
     else: # maximizingPlayer is False
-        value = math.inf
-        for move in moves:
-            x, y, direction = interpretDirection(move, board.bLength, 
-                                                   board.bHeight)
-            state = board.getUpdatedBoard(x, y, direction)
-            child = Board(board.length, board.height, board.user, board.uScore, 
-                          board.aScore, state, board.ownedBoxes)
-            value = min(value, minimax(child, depth - 1, alpha, beta, True))
-
-            if (beta is not None):
-                beta = min(beta, value)
-            else: # beta is None
+        value = (math.inf, None)
+        for m in moves:
+            board = copyBoard(board)
+            board.updateBoard(m[0], m[1], m[2], board.user)
+            if (move is None):
+                minimaxValue = minimax(board, depth - 1, alpha, beta, True, m)
+            else:
+                minimaxValue = minimax(board, depth - 1, alpha, beta, True, move)
+            if (value[0] > minimaxValue[0]):
+                value = minimaxValue
+            if (beta[0] > value[0]):
                 beta = value
-            if (alpha >= beta):
+            if (alpha[0] >= beta[0]):
                 break # Prune
         return value
 
 
-# Based on the x and y position, 
-# a move including an x and y position along with a direction is returned.
-def interpretDirection(move, bLength, bHeight):
-    x = move[0]
-    y = move[1]
-
-    if (x % 2 == 0 and y % 2 == 1):
-        if (x - 1 in range(bLength)):
-            x = int((x - 2) / 2)
-            y = int((y - 1) / 2)
-            return (x, y, "R")
-        else: # x + 1 is in range
-            x = int(x / 2)
-            y = int((y - 1) / 2)
-            return (x, y, "L")
-    if (x % 2 == 1 and y % 2 == 0):
-        if (y - 1 in range(bHeight)):
-            x = int((x - 1) / 2)
-            y = int((y - 2) / 2)
-            return (x, y, "B")
-        else: # y + 1 is in range
-            x = int((x - 1) / 2)
-            y = int(y / 2)
-            return (x, y, "T")
-
-def heuristic(state):
-    return 0
+# Uses values of current board to create and return a copy of it.
+def copyBoard(board):
+    newBoardInfo = board.getInfo()
+    newBoard = Board(newBoardInfo[0], newBoardInfo[1],newBoardInfo[2],
+                     newBoardInfo[3], newBoardInfo[4], newBoardInfo[5],
+                     newBoardInfo[6])
+    return newBoard

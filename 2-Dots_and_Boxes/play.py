@@ -16,13 +16,12 @@ def printHelp(message=""):
     if (len(message) > 0):
         print(message)
     print("Please use the following format:\n" +
-          "play.py -s <size | [x] [y]> -d <depth | [1-9]>\n" +
+          "play.py -s <size | [x] [y]> -d <depth | [z]>\n" +
           "e.g. 'play.py -s 2 2 -d 2'")
     os._exit(0)
 
+
 # Checks if the command line arguments are valid
-
-
 def checkArgs(size=[None, None]):
     # Prints help message if there are too many or too few arguments
     if (args_len < 6 or args_len > 6):
@@ -43,9 +42,9 @@ def checkArgs(size=[None, None]):
                 depth = int(args[i + 1])
             except ValueError:
                 printHelp("Invalid input. " +
-                          "'{0}' is not a number.".format(args[i + 1]))
-    print("Board size is {0} by {1}.\n".format(size[0], size[1]) +
-          "Minimax depth is {0}.\n".format(depth))
+                          "{0} is not a number.".format(args[i + 1]))
+
+    print("Board size is {0} by {1}.".format(size[0], size[1]))
     return size, depth
 
 
@@ -64,7 +63,7 @@ def setName():
             loop = False
         elif (user_input.lower() == 'n' or user_input.lower() == 'no'):
             loop = True
-        else: # user_input isn't 'y', 'yes', 'n', or 'no'
+        else:
             print("I'm sorry, I don't understand '{0}'.".format(user_input))
 
     print("\nIt's nice to meet you, {0}! ".format(player) +
@@ -85,7 +84,7 @@ def playGame(player, size, depth):
             loop = True
         elif (user_input.lower() == 'n' or user_input.lower() == 'no'):
             loop = False
-        else: # user_input isn't 'y', 'yes', 'n', or 'no'
+        else:
             print("I'm sorry, I don't understand '{0}'.".format(user_input))
 
     print("Thanks for playing with me, {0}. See you later!".format(player))

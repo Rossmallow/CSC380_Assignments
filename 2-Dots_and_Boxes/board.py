@@ -43,21 +43,9 @@ class Board:
 
 
 # Takes (x, y) coordinates of box to update, and direction to draw line.
-# Calls getUpdatedBoard. If move is legal, then calls checkBoxes to see if any 
-# boxes have new owners
-    def updateBoard(self, x, y, direction, player):
-        state = self.getUpdatedBoard(x, y, direction)
-        if (state == "printHelp"):
-            return state
-        else: # State is a new state with move applied
-            self.state = state
-        return self.checkBoxes(x, y, direction, player)
-
-
-# Takes (x, y) coordinates of box to update, and direction to draw line.
 # The first two lines Convert values from state of lenght*height
 # to state of bLenght*bHeight
-    def getUpdatedBoard(self, x, y, direction):
+    def updateBoard(self, x, y, direction, player):
         x = (x * 2) + 1
         y = (y * 2) + 1
         if (direction == "T"):
@@ -69,18 +57,17 @@ class Board:
         elif (direction == "R"):
             x = x + 1
 
-        state = self.state
         if (x % 2 == 0 and y % 2 == 1):
-            if (state[y][x] == ' '):
-                state[y][x] = '|'
-            else: # Line is already drawn
+            if (self.state[y][x] == ' '):
+                self.state[y][x] = '|'
+            else:
                 return "printHelp"
         elif (x % 2 == 1 and y % 2 == 0):
-            if (state[y][x] == '   '):
-                state[y][x] = '___'
-            else: # Line is already drawn
+            if (self.state[y][x] == '   '):
+                self.state[y][x] = '___'
+            else:
                 return "printHelp"
-        return state
+        return self.checkBoxes(x, y, direction, player)
 
 
 # Takes the index of a drawn line and the direction it is drawn, and calls
@@ -107,13 +94,13 @@ class Board:
             return
         elif (self.state[y][x - 1] == ' ' or self.state[y][x + 1] == ' '):
             return
-        else: # All 4 lines are drawn
+        else:
             score = int(self.state[y][x])
             self.state[y][x] = " {0} ".format(player[:1].upper())
             self.ownedBoxes += 1
             if (player == self.user):
                 self.uScore += score
-            else: # player is AI
+            else: # player == "Algie"
                 self.aScore += score
             movesLeft = self.getAvailableMoves()
             if (len(movesLeft) == 0):
@@ -122,18 +109,34 @@ class Board:
                 return False
 
 
-# Loops through the state and returns a list
-# with the locations of all available moves
+# Loops through the state and returns a list with all available moves
     def getAvailableMoves(self):
-        moves = []
+        moves = set()
         for i in range(self.bHeight):
             for j in range(self.bLength):
-                try:
-                    if (self.state[i][j].strip() == ''):
-                        moves.append((i, j))
-                except IndexError:
-                    print('INDEX ERROR i: {0}, j: {1}'.format(i, j))
+                if (self.state[i][j].strip() == ''):
+                    x = j
+                    y = i
+                    if (x % 2 == 0 and y % 2 == 1):
+                        if (x - 1 in range(self.bLength)):
+                            x = int((x - 2) / 2)
+                            y = int((y - 1) / 2)
+                            moves.add((x, y, "R"))
+                        else: # x + 1 is in range
+                            x = int(x / 2)
+                            y = int((y - 1) / 2)
+                            moves.add((x, y, "L"))
+                    if (x % 2 == 1 and y % 2 == 0):
+                        if (y - 1 in range(self.bHeight)):
+                            x = int((x - 1) / 2)
+                            y = int((y - 2) / 2)
+                            moves.add((x, y, "B"))
+                        else: # y + 1 is in range
+                            x = int((x - 1) / 2)
+                            y = int(y / 2)
+                            moves.add((x, y, "T"))
         return moves
+
 
 # Prints the board to the command line
     def prettyPrint(self):
@@ -142,3 +145,25 @@ class Board:
         print("{0}: {1}\n".format(self.user, self.uScore) +
               "Algie: {0}".format(self.aScore))
         return
+
+# Returns a tuple with the board's length, height, user, uScore, aScore, state,
+# and ownedBoxes
+    def getInfo(self):
+        length = self.length
+        height = self.height
+        user = self.user
+        uScore = self.uScore
+        aScore = self.aScore
+        state = self.getState()
+        ownedBoxes = self.ownedBoxes
+        return (length, height, user, uScore, aScore, state, ownedBoxes)
+
+# Makes and returns a copy of the board's state
+    def getState(self):
+        state = []
+        for i in range(self.bHeight):
+            row = []
+            for j in range(self.bLength):
+                row.append(self.state[i][j])
+            state.append(row)
+        return state
